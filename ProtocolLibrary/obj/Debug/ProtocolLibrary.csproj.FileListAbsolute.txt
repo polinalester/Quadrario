@@ -1,0 +1,25 @@
+C:\Users\student\Downloads\packages (4)\ProtocolLibrary\bin\Debug\ProtocolLibrary.dll
+C:\Users\student\Downloads\packages (4)\ProtocolLibrary\bin\Debug\ProtocolLibrary.pdb
+C:\Users\student\Downloads\packages (4)\ProtocolLibrary\bin\Debug\protobuf-net.dll
+C:\Users\student\Downloads\packages (4)\ProtocolLibrary\obj\Debug\ProtocolLibrary.csprojResolveAssemblyReference.cache
+C:\Users\student\Downloads\packages (4)\ProtocolLibrary\obj\Debug\ProtocolLibrary.dll
+C:\Users\student\Downloads\packages (4)\ProtocolLibrary\obj\Debug\ProtocolLibrary.pdb
+C:\Users\st040227\Downloads\DirService101\ProtocolLibrary\bin\Debug\ProtocolLibrary.dll
+C:\Users\st040227\Downloads\DirService101\ProtocolLibrary\bin\Debug\ProtocolLibrary.pdb
+C:\Users\st040227\Downloads\DirService101\ProtocolLibrary\obj\Debug\ProtocolLibrary.csprojResolveAssemblyReference.cache
+C:\Users\st040227\Downloads\DirService101\ProtocolLibrary\obj\Debug\ProtocolLibrary.dll
+C:\Users\st040227\Downloads\DirService101\ProtocolLibrary\obj\Debug\ProtocolLibrary.pdb
+C:\Users\polina\Downloads\DirService101\DirService101\ProtocolLibrary\bin\Debug\ProtocolLibrary.dll
+C:\Users\polina\Downloads\DirService101\DirService101\ProtocolLibrary\bin\Debug\ProtocolLibrary.pdb
+C:\Users\polina\Downloads\DirService101\DirService101\ProtocolLibrary\obj\Debug\ProtocolLibrary.csprojResolveAssemblyReference.cache
+C:\Users\polina\Downloads\DirService101\DirService101\ProtocolLibrary\obj\Debug\ProtocolLibrary.csproj.CoreCompileInputs.cache
+C:\Users\polina\Downloads\DirService101\DirService101\ProtocolLibrary\obj\Debug\ProtocolLibrary.csproj.CopyComplete
+C:\Users\polina\Downloads\DirService101\DirService101\ProtocolLibrary\obj\Debug\ProtocolLibrary.dll
+C:\Users\polina\Downloads\DirService101\DirService101\ProtocolLibrary\obj\Debug\ProtocolLibrary.pdb
+C:\Users\polina\Downloads\Quadrario\Quadrario\ProtocolLibrary\bin\Debug\ProtocolLibrary.dll
+C:\Users\polina\Downloads\Quadrario\Quadrario\ProtocolLibrary\bin\Debug\ProtocolLibrary.pdb
+C:\Users\polina\Downloads\Quadrario\Quadrario\ProtocolLibrary\obj\Debug\ProtocolLibrary.csprojResolveAssemblyReference.cache
+C:\Users\polina\Downloads\Quadrario\Quadrario\ProtocolLibrary\obj\Debug\ProtocolLibrary.csproj.CoreCompileInputs.cache
+C:\Users\polina\Downloads\Quadrario\Quadrario\ProtocolLibrary\obj\Debug\ProtocolLibrary.csproj.CopyComplete
+C:\Users\polina\Downloads\Quadrario\Quadrario\ProtocolLibrary\obj\Debug\ProtocolLibrary.dll
+C:\Users\polina\Downloads\Quadrario\Quadrario\ProtocolLibrary\obj\Debug\ProtocolLibrary.pdb
