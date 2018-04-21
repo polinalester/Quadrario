@@ -1,0 +1,29 @@
+C:\Users\student\Downloads\packages (4)\ConsoleZMQServer\bin\Debug\ConsoleZMQServer.exe.config
+C:\Users\student\Downloads\packages (4)\ConsoleZMQServer\bin\Debug\ConsoleZMQServer.exe
+C:\Users\student\Downloads\packages (4)\ConsoleZMQServer\bin\Debug\ConsoleZMQServer.pdb
+C:\Users\student\Downloads\packages (4)\ConsoleZMQServer\bin\Debug\protobuf-net.dll
+C:\Users\student\Downloads\packages (4)\ConsoleZMQServer\bin\Debug\ProtocolLibrary.dll
+C:\Users\student\Downloads\packages (4)\ConsoleZMQServer\bin\Debug\ProtocolLibrary.pdb
+C:\Users\student\Downloads\packages (4)\ConsoleZMQServer\obj\Debug\ConsoleZMQServer.csprojResolveAssemblyReference.cache
+C:\Users\student\Downloads\packages (4)\ConsoleZMQServer\obj\Debug\ConsoleZMQServer.exe
+C:\Users\student\Downloads\packages (4)\ConsoleZMQServer\obj\Debug\ConsoleZMQServer.pdb
+C:\Users\student\Downloads\packages (4)\ConsoleZMQServer\bin\Debug\AsyncIO.dll
+C:\Users\student\Downloads\packages (4)\ConsoleZMQServer\bin\Debug\NetMQ.dll
+C:\Users\st040227\Downloads\DirService101\ConsoleZMQServer\bin\Debug\ConsoleZMQServer.exe.config
+C:\Users\st040227\Downloads\DirService101\ConsoleZMQServer\bin\Debug\ConsoleZMQServer.exe
+C:\Users\st040227\Downloads\DirService101\ConsoleZMQServer\bin\Debug\ConsoleZMQServer.pdb
+C:\Users\st040227\Downloads\DirService101\ConsoleZMQServer\bin\Debug\ProtocolLibrary.dll
+C:\Users\st040227\Downloads\DirService101\ConsoleZMQServer\bin\Debug\ProtocolLibrary.pdb
+C:\Users\st040227\Downloads\DirService101\ConsoleZMQServer\obj\Debug\ConsoleZMQServer.csprojResolveAssemblyReference.cache
+C:\Users\st040227\Downloads\DirService101\ConsoleZMQServer\obj\Debug\ConsoleZMQServer.exe
+C:\Users\st040227\Downloads\DirService101\ConsoleZMQServer\obj\Debug\ConsoleZMQServer.pdb
+C:\Users\polina\Downloads\DirService101\DirService101\ConsoleZMQServer\bin\Debug\ConsoleZMQServer.exe.config
+C:\Users\polina\Downloads\DirService101\DirService101\ConsoleZMQServer\bin\Debug\ConsoleZMQServer.exe
+C:\Users\polina\Downloads\DirService101\DirService101\ConsoleZMQServer\bin\Debug\ConsoleZMQServer.pdb
+C:\Users\polina\Downloads\DirService101\DirService101\ConsoleZMQServer\bin\Debug\ProtocolLibrary.dll
+C:\Users\polina\Downloads\DirService101\DirService101\ConsoleZMQServer\bin\Debug\ProtocolLibrary.pdb
+C:\Users\polina\Downloads\DirService101\DirService101\ConsoleZMQServer\obj\Debug\ConsoleZMQServer.csprojResolveAssemblyReference.cache
+C:\Users\polina\Downloads\DirService101\DirService101\ConsoleZMQServer\obj\Debug\ConsoleZMQServer.csproj.CoreCompileInputs.cache
+C:\Users\polina\Downloads\DirService101\DirService101\ConsoleZMQServer\obj\Debug\ConsoleZMQServer.csproj.CopyComplete
+C:\Users\polina\Downloads\DirService101\DirService101\ConsoleZMQServer\obj\Debug\ConsoleZMQServer.exe
+C:\Users\polina\Downloads\DirService101\DirService101\ConsoleZMQServer\obj\Debug\ConsoleZMQServer.pdb
