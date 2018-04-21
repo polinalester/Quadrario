@@ -1,0 +1,19 @@
+C:\Users\student\Downloads\packages (4)\DirectoryService\bin\Debug\DirectoryService.exe.config
+C:\Users\student\Downloads\packages (4)\DirectoryService\obj\Debug\DirectoryService.csprojResolveAssemblyReference.cache
+C:\Users\student\Downloads\packages (4)\DirectoryService\bin\Debug\DirectoryService.exe
+C:\Users\student\Downloads\packages (4)\DirectoryService\bin\Debug\DirectoryService.pdb
+C:\Users\student\Downloads\packages (4)\DirectoryService\bin\Debug\protobuf-net.dll
+C:\Users\student\Downloads\packages (4)\DirectoryService\bin\Debug\ProtocolLibrary.dll
+C:\Users\student\Downloads\packages (4)\DirectoryService\bin\Debug\ProtocolLibrary.pdb
+C:\Users\student\Downloads\packages (4)\DirectoryService\obj\Debug\DirectoryService.exe
+C:\Users\student\Downloads\packages (4)\DirectoryService\obj\Debug\DirectoryService.pdb
+C:\Users\student\Downloads\packages (4)\DirectoryService\bin\Debug\AsyncIO.dll
+C:\Users\student\Downloads\packages (4)\DirectoryService\bin\Debug\NetMQ.dll
+C:\Users\st040227\Downloads\DirService101\DirectoryService\bin\Debug\DirectoryService.exe.config
+C:\Users\st040227\Downloads\DirService101\DirectoryService\obj\Debug\DirectoryService.exe
+C:\Users\st040227\Downloads\DirService101\DirectoryService\obj\Debug\DirectoryService.pdb
+C:\Users\st040227\Downloads\DirService101\DirectoryService\bin\Debug\DirectoryService.exe
+C:\Users\st040227\Downloads\DirService101\DirectoryService\bin\Debug\DirectoryService.pdb
+C:\Users\st040227\Downloads\DirService101\DirectoryService\bin\Debug\ProtocolLibrary.dll
+C:\Users\st040227\Downloads\DirService101\DirectoryService\bin\Debug\ProtocolLibrary.pdb
+C:\Users\st040227\Downloads\DirService101\DirectoryService\obj\Debug\DirectoryService.csprojResolveAssemblyReference.cache
