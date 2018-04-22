@@ -1,13 +1,12 @@
 # Quadrario
-A project on grid and cloud computing
+A project on grid&cloud computing
 
+# **How to launch:**
 1. Launch DirectoryService
-2. Launch MovementService
-3. Launch IntersectionService
-4. Launch RenderService
-5. Launch GameClient(s)
+2. Launch MovementService, IntersectionService and RenderService
+3. Launch GameClient(s)
 
-
+# **Architecture:**
 
 - Client & DirectoryService and Services & DirectoryService Interactions:
 
@@ -32,6 +31,6 @@ A project on grid and cloud computing
 ![](https://github.com/polinalester/Quadrario/blob/master/uml4.png)
 
 
-Gameplay Example:
+# **GameWindow Example:**
 
 ![](https://github.com/polinalester/Quadrario/blob/master/gameExample.png)
