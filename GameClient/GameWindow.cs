@@ -19,18 +19,13 @@ namespace GameClient
     public partial class GameWindow : Form
     {
         private Random rnd = new Random();
-     
-        bool connected;
         GameClient gclient;
-        // int numberOfPlayers;
-        //private Image bgrImage;
-        List<int[]> players = new List<int[]>();
+        public List<int[]> players = new List<int[]>();
         string dbname = "C:/Users/polina/Downloads/Quadrario/Quadrario/playerdb.db3";
 
         public GameWindow()
         {
             InitializeComponent();
-            connected = false;
         }
         private void GameWindow_KeyPress(object sender, KeyPressEventArgs e)
         {
@@ -40,33 +35,6 @@ namespace GameClient
                 || e.KeyChar == (char)Keys.D || e.KeyChar == (char)100)
             {
                 gclient.RequestReply_Move(e.KeyChar.ToString());
-                players.Clear();
-                SQLiteConnection cnnect = new SQLiteConnection("Data Source=" + dbname + ";Version=3;");
-                cnnect.Open();
-                SQLiteCommand command = new SQLiteCommand();
-                command.Connection = cnnect;
-                command.CommandText = @"SELECT * FROM [players]";
-
-                try
-                {
-                    SQLiteDataReader r = command.ExecuteReader();
-                    string line = String.Empty;
-                    while (r.Read())
-                    {
-                        int[] playerInfo = new int[4];
-                        playerInfo[0] = Convert.ToInt32(r["id"]);
-                        playerInfo[1] = Convert.ToInt32(r["xcoordinate"]);
-                        playerInfo[2] = Convert.ToInt32(r["ycoordinate"]);
-                        playerInfo[3] = Convert.ToInt32(r["size"]);
-                        players.Add(playerInfo);  
-                    }
-                    r.Close();
-                }
-                catch (SQLiteException ex)
-                {
-                    Console.WriteLine(ex.Message);
-                }
-                cnnect.Close();
                 RefreshGame();
                 DrawPlayers();
             }
@@ -74,38 +42,11 @@ namespace GameClient
             if (e.KeyChar == (char)32)
             {
                 gclient.RequestReply_Intersect();
-                players.Clear();
-                SQLiteConnection cnnect = new SQLiteConnection("Data Source=" + dbname + ";Version=3;");
-                cnnect.Open();
-                SQLiteCommand command = new SQLiteCommand();
-                command.Connection = cnnect;
-                command.CommandText = @"SELECT * FROM [players]";
-
-                try
-                {
-                    SQLiteDataReader r = command.ExecuteReader();
-                    string line = String.Empty;
-                    while (r.Read())
-                    {
-                        int[] playerInfo = new int[4];
-                        playerInfo[0] = Convert.ToInt32(r["id"]);
-                        playerInfo[1] = Convert.ToInt32(r["xcoordinate"]);
-                        playerInfo[2] = Convert.ToInt32(r["ycoordinate"]);
-                        playerInfo[3] = Convert.ToInt32(r["size"]);
-                        players.Add(playerInfo);
-                    }
-                    r.Close();
-                }
-                catch (SQLiteException ex)
-                {
-                    Console.WriteLine(ex.Message);
-                }
-                cnnect.Close();
                 RefreshGame();
                 DrawPlayers();
             }
         }
-        protected void RefreshGame()
+        public void RefreshGame()
         {
             System.Drawing.Graphics g;
             g = this.CreateGraphics();
@@ -115,19 +56,8 @@ namespace GameClient
 
             }
             g.Dispose();
-            /*
-            ShapeContainer canvas = new ShapeContainer();
-            RectangleShape bgr = new RectangleShape();
-            canvas.Parent = this;
-            bgr.Parent = canvas;
-            bgr.Size = new System.Drawing.Size(660, 500);
-            bgr.Location = new System.Drawing.Point(10,50);
-            bgr.BackColor = Color.White;
-            bgr.BackStyle = BackStyle.Opaque;
-            bgr.BorderColor = Color.White;
-            */
         }
-        protected void DrawPlayers() {
+        public void DrawPlayers() {
             Color randomColor;
             System.Drawing.Graphics g;
             g = this.CreateGraphics();
@@ -151,6 +81,7 @@ namespace GameClient
                 drawFont.Dispose();
             }
             g.Dispose();
+            NotifLabel.Text = players.Count.ToString();
         }
         private void button1_Click(object sender, EventArgs e)
         {
@@ -176,12 +107,11 @@ namespace GameClient
                 else {
                     var match = result[0];
                     NotifLabel.Text = "Connecting from user " + userId + " to " + match.Value;
-                    connected = true;
                     if (NotifLabel.CanFocus)
                     {
                         NotifLabel.Focus();
                     }
-
+                    //TODO: LoginService
                     SQLiteConnection cnnect = new SQLiteConnection("Data Source=" + dbname + ";Version=3;");
                     cnnect.Open();
                     SQLiteCommand command = new SQLiteCommand();
@@ -190,40 +120,8 @@ namespace GameClient
                                 + "VALUES (" + userId + ", 335, 300, 40);";
                     command.CommandType = CommandType.Text;
                     command.ExecuteNonQuery();
-
-                    command.CommandText = @"SELECT * FROM [players]";
-                    
-                    Color randomColor;
-                    System.Drawing.Graphics g;
-                    g = this.CreateGraphics();
-                    try
-                    {
-                        SQLiteDataReader r = command.ExecuteReader();
-                        string line = String.Empty;
-                        while (r.Read())
-                        {
-                            int[] playerInfo = new int[4];
-                            randomColor = Color.FromArgb(rnd.Next(256), rnd.Next(256), rnd.Next(256));
-                            playerInfo[0] = Convert.ToInt32(r["id"]);
-                            playerInfo[1] = Convert.ToInt32(r["xcoordinate"]);
-                            playerInfo[2] = Convert.ToInt32(r["ycoordinate"]);
-                            playerInfo[3] = Convert.ToInt32(r["size"]);
-                            players.Add(playerInfo);
-                        }
-                        r.Close();
-                    }
-                    catch (SQLiteException ex)
-                    {
-                        Console.WriteLine(ex.Message);
-                    }
                     cnnect.Close();
-                    DrawPlayers();
-                    gclient = new GameClient(IPTextbox.Text){ Id = userId, IP = IPTextbox.Text };
-
-                    //while (true)
-                    //{
-                    //    Thread.Sleep(10);
-                    //}
+                    gclient = new GameClient(IPTextbox.Text, this){ Id = userId, IP = IPTextbox.Text };
                 }
             }
         }

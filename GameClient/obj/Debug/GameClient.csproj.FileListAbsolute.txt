@@ -21,5 +21,5 @@ C:\Users\polina\Downloads\Quadrario\Quadrario\GameClient\bin\Debug\EntityFramewo
 C:\Users\polina\Downloads\Quadrario\Quadrario\GameClient\bin\Debug\EntityFramework.SqlServer.xml
 C:\Users\polina\Downloads\Quadrario\Quadrario\GameClient\bin\Debug\System.Data.SQLite.xml
 C:\Users\polina\Downloads\Quadrario\Quadrario\GameClient\bin\Debug\System.Data.SQLite.dll.config
-C:\Users\polina\Downloads\Quadrario\Quadrario\GameClient\bin\Debug\Microsoft.VisualBasic.PowerPacks.dll
-C:\Users\polina\Downloads\Quadrario\Quadrario\GameClient\bin\Debug\Microsoft.VisualBasic.PowerPacks.xml
+C:\Users\polina\Downloads\Quadrario\Quadrario\GameClient\bin\Debug\protobuf-net.dll
+C:\Users\polina\Downloads\Quadrario\Quadrario\GameClient\bin\Debug\protobuf-net.xml

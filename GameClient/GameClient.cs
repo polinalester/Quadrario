@@ -17,12 +17,13 @@ namespace GameClient
     {
         private static volatile bool _stopLoops;
         private readonly Random _random = new Random();
+        GameWindow _gw;
 
         private string _dirSerIp = "";
-        public GameClient(string dirSerIp)
+        public GameClient(string dirSerIp, GameWindow gw)
         {
             _dirSerIp = dirSerIp;
-
+            _gw = gw;
 
             CallDirectoryService();
         }
@@ -30,10 +31,9 @@ namespace GameClient
 
         public int Id { get; set; }
 
-        public string MoveIP ="";
+        public string MoveIP = "";
         public string RenderIP = "";
         public string IntersectIP = "";
-
         public void CallDirectoryService()
         {
             ThreadPool.QueueUserWorkItem(state =>
@@ -103,7 +103,6 @@ namespace GameClient
                             RenderIP = request.Address;
                             PubSub_Render();
                             RequestReply_Render();
-                            //RequestReply();
                         }
                     }
                     catch (Exception e)
@@ -114,15 +113,14 @@ namespace GameClient
                 }
             });
         }
-
         public void Dispose()
         {
             _stopLoops = true;
         }
-
         public void PubSub_Move()
         {
-            ThreadPool.QueueUserWorkItem(state => {
+            ThreadPool.QueueUserWorkItem(state =>
+            {
                 var client = new SubscriberSocket();
                 client.Connect("tcp://" + MoveIP + ":5556");
                 while (!_stopLoops)
@@ -141,7 +139,8 @@ namespace GameClient
         }
         public void PubSub_Intersect()
         {
-            ThreadPool.QueueUserWorkItem(state => {
+            ThreadPool.QueueUserWorkItem(state =>
+            {
                 var client = new SubscriberSocket();
                 client.Connect("tcp://" + IntersectIP + ":5554");
                 while (!_stopLoops)
@@ -160,7 +159,8 @@ namespace GameClient
         }
         public void PubSub_Render()
         {
-            ThreadPool.QueueUserWorkItem(state => {
+            ThreadPool.QueueUserWorkItem(state =>
+            {
                 var client = new SubscriberSocket();
                 client.Connect("tcp://" + RenderIP + ":5557");
                 while (!_stopLoops)
@@ -179,76 +179,52 @@ namespace GameClient
         }
         public void RequestReply_Move(string keyPressed)
         {
-            ThreadPool.QueueUserWorkItem(state => {
+            ThreadPool.QueueUserWorkItem(state =>
+            {
                 var client = new RequestSocket();
                 client.Connect("tcp://" + MoveIP + ":5555");
                 if (keyPressed == "w" || keyPressed == "a" || keyPressed == "s" || keyPressed == "d")
                 {
-                        try
+                    try
+                    {
+                        var request = new MoveRequest { };
+                        switch (keyPressed)
                         {
-                            var request = new MoveRequest { };
-                            switch (keyPressed)
-                            {
-                                case "w":
-                                case "W":
-                                    request = new MoveRequest
-                                    {
-                                        UserId = Id,
-                                        Direction = new List<int> { 1, 0, 1 }
-                                    };
-                                    break;
-                                case "a":
-                                case "A":
-                                    request = new MoveRequest
-                                    {
-                                        UserId = Id,
-                                        Direction = new List<int> { 1, -1, 0 }
-                                    };
-                                    break;
-                                case "s":
-                                case "S":
-                                    request = new MoveRequest
-                                    {
-                                        UserId = Id,
-                                        Direction = new List<int> { 1, 0, -1 }
-                                    };
-                                    break;
-                                case "d":
-                                case "D":
-                                    request = new MoveRequest
-                                    {
-                                        UserId = Id,
-                                        Direction = new List<int> { 1, 1, 0 }
-                                    };
-                                    break;
-                                default:
-                                    break;
-                            }
-                            using (var responseStream = new MemoryStream())
-                            {
-                                Serializer.Serialize(responseStream, request);
-                                client.SendFrame(responseStream.ToArray());
-                            }
-                            var receiveFrame = client.ReceiveFrameBytes();
-                            var reply = Serializer.Deserialize<Response>(new MemoryStream(receiveFrame));
-                            var mr = reply as BooleanResponse;
+                            case "w":
+                            case "W":
+                                request = new MoveRequest
+                                {
+                                    UserId = Id,
+                                    Direction = new List<int> { 1, 0, 1 }
+                                };
+                                break;
+                            case "a":
+                            case "A":
+                                request = new MoveRequest
+                                {
+                                    UserId = Id,
+                                    Direction = new List<int> { 1, -1, 0 }
+                                };
+                                break;
+                            case "s":
+                            case "S":
+                                request = new MoveRequest
+                                {
+                                    UserId = Id,
+                                    Direction = new List<int> { 1, 0, -1 }
+                                };
+                                break;
+                            case "d":
+                            case "D":
+                                request = new MoveRequest
+                                {
+                                    UserId = Id,
+                                    Direction = new List<int> { 1, 1, 0 }
+                                };
+                                break;
+                            default:
+                                break;
                         }
-                        catch (Exception e)
-                        {
-                            Console.WriteLine(e);
-                        }
-                    }
-            });
-        }
-
-        public void RequestReply_Intersect()
-        {
-            ThreadPool.QueueUserWorkItem(state => {
-                var client = new RequestSocket();
-                client.Connect("tcp://" + IntersectIP + ":5553");
-                try
-                {
-                        var request = new Request();
                         using (var responseStream = new MemoryStream())
                         {
                             Serializer.Serialize(responseStream, request);
@@ -262,17 +238,18 @@ namespace GameClient
                     {
                         Console.WriteLine(e);
                     }
+                }
             });
         }
-        public void RequestReply_Render()
+        public void RequestReply_Intersect()
         {
             ThreadPool.QueueUserWorkItem(state =>
             {
                 var client = new RequestSocket();
-                client.Connect("tcp://" + RenderIP + ":5558");
+                client.Connect("tcp://" + IntersectIP + ":5553");
                 try
                 {
-                    var request = new Request();
+                    var request = new Request() { UserId = Id };
                     using (var responseStream = new MemoryStream())
                     {
                         Serializer.Serialize(responseStream, request);
@@ -280,7 +257,40 @@ namespace GameClient
                     }
                     var receiveFrame = client.ReceiveFrameBytes();
                     var reply = Serializer.Deserialize<Response>(new MemoryStream(receiveFrame));
-                    var mr = reply as BooleanResponse; //TODO: Change to render response
+                    var mr = reply as BooleanResponse;
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine(e);
+                }
+            });
+        }
+        public void RequestReply_Render()
+        {
+            ThreadPool.QueueUserWorkItem(state =>
+            {
+                List<int[]> players = new List<int[]>();
+                var client = new RequestSocket();
+                client.Connect("tcp://" + RenderIP + ":5558");
+
+                try
+                {
+                    var request = new Request() { UserId = Id };
+                    using (var responseStream = new MemoryStream())
+                    {
+                        Serializer.Serialize(responseStream, request);
+                        client.SendFrame(responseStream.ToArray());
+                    }
+                    var receiveFrame = client.ReceiveFrameBytes();
+                    var reply = Serializer.Deserialize<RenderResponse>(new MemoryStream(receiveFrame));
+                    var mr = reply as RenderResponse; //TODO: Change to render response
+                    for (int i = 0; i < mr.Players.Count; i++)
+                        players.Add(mr.Players[i]);
+                    _gw.players.Clear();
+                    for (int i = 0; i < players.Count; i++)
+                        _gw.players.Add(players[i]);
+                    _gw.RefreshGame();
+                    _gw.DrawPlayers();
                 }
                 catch (Exception e)
                 {

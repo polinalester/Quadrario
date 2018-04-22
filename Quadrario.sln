@@ -3,9 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.27428.2037
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Client", "ConsoleZMQClient\Client.csproj", "{D9A88310-6717-4BE8-92F7-B8B7565F6DC2}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Client", "ConsoleClient\Client.csproj", "{D9A88310-6717-4BE8-92F7-B8B7565F6DC2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MovementService", "ConsoleZMQServer\MovementService.csproj", "{D6AEF61B-A1F2-489D-A996-18E18D53449E}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MovementService", "MovementService\MovementService.csproj", "{D6AEF61B-A1F2-489D-A996-18E18D53449E}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProtocolLibrary", "ProtocolLibrary\ProtocolLibrary.csproj", "{ED886C7E-6E5A-4B27-92D5-648B85380E81}"
 EndProject
@@ -14,6 +14,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GameClient", "GameClient\GameClient.csproj", "{D4061497-1EFB-45E2-ACDE-0007AFDDB60E}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RenderService", "RenderService\RenderService.csproj", "{ACE3D611-10FA-457C-A7C8-6141E8F99F88}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IntersectionService", "IntersectionService\IntersectionService.csproj", "{A96317FC-18E9-4717-9900-4DD6AC998A2C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -45,6 +47,10 @@ Global
 		{ACE3D611-10FA-457C-A7C8-6141E8F99F88}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{ACE3D611-10FA-457C-A7C8-6141E8F99F88}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{ACE3D611-10FA-457C-A7C8-6141E8F99F88}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A96317FC-18E9-4717-9900-4DD6AC998A2C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A96317FC-18E9-4717-9900-4DD6AC998A2C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A96317FC-18E9-4717-9900-4DD6AC998A2C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A96317FC-18E9-4717-9900-4DD6AC998A2C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
