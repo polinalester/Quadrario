@@ -68,6 +68,7 @@ namespace MovementService
                             Serializer.Serialize(responseStream, dataFacadeEvent);
                             server.SendFrame(responseStream.ToArray());
                         }
+                        Console.WriteLine("Sub from user " + dataFacadeEvent.UserId);
                         Thread.Sleep(5000);
                     } catch(Exception e) {
                         Console.WriteLine(e);
@@ -99,8 +100,6 @@ namespace MovementService
             });
         }
 
-        long counter;
-
         public Response OnRequest(Request r) {
             switch(r.Type) {
                 case MessageTypes.MoveRequest:
@@ -113,31 +112,30 @@ namespace MovementService
                     SQLiteCommand command = new SQLiteCommand(); ;
                     command.Connection = cnnect;
 
-                    //if(++counter % 30000 == 0) {
-                    Console.WriteLine("Move request: {1}; Server: req from {0}", mr.UserId, counter);
-                    //}
+                    Console.WriteLine("Move request from {0}", mr.UserId);
+
                     if (mr.Direction[1] == 1)
                     {
                         Console.WriteLine("move right");
-                        command.CommandText = @"UPDATE [players] SET [xcoordinate] = [xcoordinate] + 1 "
+                        command.CommandText = @"UPDATE [players] SET [xcoordinate] = [xcoordinate] + 5 "
                             + "WHERE [id] = " + mr.UserId;
                     }
                     else if (mr.Direction[1] == -1)
                     {
                         Console.WriteLine("move left");
-                        command.CommandText = @"UPDATE [players] SET [xcoordinate] = [xcoordinate] - 1 "
+                        command.CommandText = @"UPDATE [players] SET [xcoordinate] = [xcoordinate] - 5 "
                             + "WHERE [id] = " + mr.UserId;
                     }
                     else if (mr.Direction[2] == 1)
                     {
                         Console.WriteLine("move up");
-                        command.CommandText = @"UPDATE [players] SET [ycoordinate] = [ycoordinate] + 1 "
+                        command.CommandText = @"UPDATE [players] SET [ycoordinate] = [ycoordinate] - 5 "
                             + "WHERE [id] = " + mr.UserId;
                     }
                     else //(mr.Direction[2] == -1)
                     {
                         Console.WriteLine("move down");
-                        command.CommandText = @"UPDATE [players] SET [ycoordinate] = [ycoordinate] - 1 "
+                        command.CommandText = @"UPDATE [players] SET [ycoordinate] = [ycoordinate] + 5 "
                             + "WHERE [id] = " + mr.UserId;
                     }
                     command.CommandType = CommandType.Text;
