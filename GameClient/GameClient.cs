@@ -30,6 +30,10 @@ namespace GameClient
 
         public int Id { get; set; }
 
+        public string MoveIP ="";
+        public string RenderIP = "";
+        public string IntersectIP = "";
+
         public void CallDirectoryService()
         {
             ThreadPool.QueueUserWorkItem(state =>
@@ -51,8 +55,9 @@ namespace GameClient
                         //Console.WriteLine(request.Address);
                         if (!String.IsNullOrEmpty(request.Address))
                         {
-                            IP = request.Address;
-                            PubSub();
+                            MoveIP = request.Address;
+                            PubSub_Move();
+                            //RequestReply_Render();
                             //RequestReply();
                         }
 
@@ -71,11 +76,11 @@ namespace GameClient
             _stopLoops = true;
         }
 
-        public void PubSub()
+        public void PubSub_Move()
         {
             ThreadPool.QueueUserWorkItem(state => {
                 var client = new SubscriberSocket();
-                client.Connect("tcp://" + IP + ":5556");
+                client.Connect("tcp://" + MoveIP + ":5556");
                 while (!_stopLoops)
                 {
                     try
@@ -91,25 +96,20 @@ namespace GameClient
                 }
             });
         }
-
-        private long counter;
-
-        public void RequestReply(string keyPressed)
+        public void RequestReply_Move(string keyPressed)
         {
             ThreadPool.QueueUserWorkItem(state => {
                 var client = new RequestSocket();
-                client.Connect("tcp://" + IP + ":5555");
-                /*while (!_stopLoops)
-                {*/
-                    //var key = Console.ReadLine();
-                    if (keyPressed == "w" || keyPressed == "a" || keyPressed == "s" || keyPressed == "d")
-                    {
+                client.Connect("tcp://" + MoveIP + ":5555");
+                if (keyPressed == "w" || keyPressed == "a" || keyPressed == "s" || keyPressed == "d")
+                {
                         try
                         {
                             var request = new MoveRequest { };
                             switch (keyPressed)
                             {
                                 case "w":
+                                case "W":
                                     request = new MoveRequest
                                     {
                                         UserId = Id,
@@ -117,6 +117,7 @@ namespace GameClient
                                     };
                                     break;
                                 case "a":
+                                case "A":
                                     request = new MoveRequest
                                     {
                                         UserId = Id,
@@ -124,6 +125,7 @@ namespace GameClient
                                     };
                                     break;
                                 case "s":
+                                case "S":
                                     request = new MoveRequest
                                     {
                                         UserId = Id,
@@ -131,6 +133,7 @@ namespace GameClient
                                     };
                                     break;
                                 case "d":
+                                case "D":
                                     request = new MoveRequest
                                     {
                                         UserId = Id,
@@ -150,12 +153,6 @@ namespace GameClient
                             var receiveFrame = client.ReceiveFrameBytes();
                             var reply = Serializer.Deserialize<Response>(new MemoryStream(receiveFrame));
                             var mr = reply as BooleanResponse;
-          
-                            /*if (++counter % 30000 == 0)
-                            {
-                                Console.WriteLine("response {1}; Client: {0}", mr != null && mr.Ok, counter);
-                            }*/
-
                         }
 
                         catch (Exception e)
@@ -163,10 +160,56 @@ namespace GameClient
                             Console.WriteLine(e);
                         }
                     }
-               // }*/
             });
         }
 
+        public void RequestReply_Intersect()
+        {
+            ThreadPool.QueueUserWorkItem(state => {
+                var client = new RequestSocket();
+                client.Connect("tcp://" + IntersectIP + ":5553");
+                try
+                {
+                        var request = new IntersectRequest { UserId = Id };
+                        using (var responseStream = new MemoryStream())
+                        {
+                            Serializer.Serialize(responseStream, request);
+                            client.SendFrame(responseStream.ToArray());
+                        }
+                        var receiveFrame = client.ReceiveFrameBytes();
+                        var reply = Serializer.Deserialize<Response>(new MemoryStream(receiveFrame));
+                        var mr = reply as BooleanResponse;
+                    }
+                    catch (Exception e)
+                    {
+                        Console.WriteLine(e);
+                    }
+            });
+        }
+        public void RequestReply_Render()
+        {
+            ThreadPool.QueueUserWorkItem(state =>
+            {
+                var client = new RequestSocket();
+                client.Connect("tcp://" + RenderIP + ":5558");
+                try
+                {
+                    var request = new RenderRequest { UserId = Id };
+                    using (var responseStream = new MemoryStream())
+                    {
+                        Serializer.Serialize(responseStream, request);
+                        client.SendFrame(responseStream.ToArray());
+                    }
+                    var receiveFrame = client.ReceiveFrameBytes();
+                    var reply = Serializer.Deserialize<Response>(new MemoryStream(receiveFrame));
+                    var mr = reply as BooleanResponse;
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine(e);
+                }
+            });
+        }
         public void OnEvent(Event e)
         {
             var dfe = e as DataFacadeEvent;
