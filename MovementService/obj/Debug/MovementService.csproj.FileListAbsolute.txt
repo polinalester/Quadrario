@@ -36,3 +36,5 @@ C:\Users\polina\Downloads\Quadrario\Quadrario\MovementService\obj\Debug\Movement
 C:\Users\polina\Downloads\Quadrario\Quadrario\MovementService\obj\Debug\MovementService.csproj.CopyComplete
 C:\Users\polina\Downloads\Quadrario\Quadrario\MovementService\obj\Debug\ConsoleZMQServer.exe
 C:\Users\polina\Downloads\Quadrario\Quadrario\MovementService\obj\Debug\ConsoleZMQServer.pdb
+C:\Users\polina\Downloads\Quadrario\Quadrario\MovementService\bin\Debug\protobuf-net.dll
+C:\Users\polina\Downloads\Quadrario\Quadrario\MovementService\bin\Debug\protobuf-net.xml

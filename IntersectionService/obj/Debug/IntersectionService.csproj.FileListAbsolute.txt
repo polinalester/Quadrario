@@ -20,3 +20,4 @@ C:\Users\polina\Downloads\Quadrario\Quadrario\IntersectionService\obj\Debug\Inte
 C:\Users\polina\Downloads\Quadrario\Quadrario\IntersectionService\obj\Debug\IntersectionService.csproj.CopyComplete
 C:\Users\polina\Downloads\Quadrario\Quadrario\IntersectionService\obj\Debug\IntersectionService.exe
 C:\Users\polina\Downloads\Quadrario\Quadrario\IntersectionService\obj\Debug\IntersectionService.pdb
+C:\Users\polina\Downloads\Quadrario\Quadrario\IntersectionService\bin\Debug\protobuf-net.xml
