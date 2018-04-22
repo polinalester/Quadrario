@@ -20,3 +20,4 @@ C:\Users\polina\Downloads\Quadrario\Quadrario\RenderService\bin\Debug\System.Dat
 C:\Users\polina\Downloads\Quadrario\Quadrario\RenderService\obj\Debug\RenderService.csproj.CopyComplete
 C:\Users\polina\Downloads\Quadrario\Quadrario\RenderService\obj\Debug\RenderService.exe
 C:\Users\polina\Downloads\Quadrario\Quadrario\RenderService\obj\Debug\RenderService.pdb
+C:\Users\polina\Downloads\Quadrario\Quadrario\RenderService\bin\Debug\protobuf-net.xml

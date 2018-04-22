@@ -26,7 +26,7 @@ namespace RenderService
 
             var s = new RenderService(ip, dirSerIp);
             while (Console.ReadLine() != "exit") {
-                Thread.Sleep(10);
+                //Thread.Sleep(10);
             }
             s.Dispose();
         }

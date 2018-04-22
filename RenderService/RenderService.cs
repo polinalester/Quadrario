@@ -18,7 +18,7 @@ namespace RenderService
         private static volatile bool _stopLoops;
         private string _ip = "";
         private string _dirSerIp = "";
-
+        string dbName = "C:/Users/polina/Downloads/Quadrario/Quadrario/playerdb.db3";
         public RenderService(string ip, string dirSerIp) {
             _ip = ip;
             _dirSerIp = dirSerIp;
@@ -26,7 +26,6 @@ namespace RenderService
             PubSub();
             CallDirectoryService();
         }
-
         public void CallDirectoryService() {
             ThreadPool.QueueUserWorkItem(state => {
                 var req = new ServiceHostRequest() { Address = _ip, ServiceType = "render" };
@@ -48,15 +47,13 @@ namespace RenderService
                     } catch(Exception e) {
                         Console.WriteLine(e);
                     }
-                    Thread.Sleep(1000);
+                    Thread.Sleep(900);
                 }
             });
         }
-
         public void Dispose() {
             _stopLoops = true;
         }
-
         public void PubSub() {
             ThreadPool.QueueUserWorkItem(state => {
                 var server = new PublisherSocket();
@@ -68,7 +65,6 @@ namespace RenderService
                             Serializer.Serialize(responseStream, dataFacadeEvent);
                             server.SendFrame(responseStream.ToArray());
                         }
-                        Console.WriteLine("Sub from user " + dataFacadeEvent.UserId);
                         Thread.Sleep(5000);
                     } catch(Exception e) {
                         Console.WriteLine(e);
@@ -76,9 +72,7 @@ namespace RenderService
                 }
             });
         }
-
         public void RequestReply() {
-            //TODO: move into server app!
             ThreadPool.QueueUserWorkItem(state => {
                 var server = new ResponseSocket();
                 server.Bind("tcp://*:5558");
@@ -99,17 +93,9 @@ namespace RenderService
                 }
             });
         }
-        public Response OnRequest(Request r) {
-            var reqtype = r.Type;
-            /*switch(r.Type) {
-                case RenderRequest:*/
-            var rr = /*(RenderRequest)*/r;
-
-            Console.WriteLine("Done");
-            string baseName = "C:/Users/polina/Downloads/Quadrario/Quadrario/playerdb.db3";
+        public Response OnRequest(Request rr) {
             List<int[]> players = new List<int[]>();
-
-            SQLiteConnection cnnect = new SQLiteConnection("Data Source=" + baseName + ";Version=3;");
+            SQLiteConnection cnnect = new SQLiteConnection("Data Source=" + dbName + ";Version=3;");
             cnnect.Open();
             SQLiteCommand command = new SQLiteCommand(); ;
             command.Connection = cnnect;
@@ -137,11 +123,7 @@ namespace RenderService
                 Console.WriteLine(ex.Message);
             }
             cnnect.Close();
-            //TODO: Change to render response
-            return new BooleanResponse { Ok = true };//RenderResponse { Players = players };
-               /* default:
-                    throw new ArgumentOutOfRangeException();*/
-            //}
+            return new RenderResponse() { Players = players };
         }
     }
 }
