@@ -68,6 +68,7 @@ namespace RenderService
                             Serializer.Serialize(responseStream, dataFacadeEvent);
                             server.SendFrame(responseStream.ToArray());
                         }
+                        Console.WriteLine("Sub from user " + dataFacadeEvent.UserId);
                         Thread.Sleep(5000);
                     } catch(Exception e) {
                         Console.WriteLine(e);
@@ -98,27 +99,24 @@ namespace RenderService
                 }
             });
         }
-
-        //long counter;
-
         public Response OnRequest(Request r) {
             var reqtype = r.Type;
-            switch(r.Type) {
-                case RenderRequest:
-                    var mr = (RenderRequest)r;
+            /*switch(r.Type) {
+                case RenderRequest:*/
+            var rr = /*(RenderRequest)*/r;
 
-                    Console.WriteLine("Done");
-                    string baseName = "C:/Users/polina/Downloads/Quadrario/Quadrario/playerdb.db3";
+            Console.WriteLine("Done");
+            string baseName = "C:/Users/polina/Downloads/Quadrario/Quadrario/playerdb.db3";
             List<int[]> players = new List<int[]>();
 
             SQLiteConnection cnnect = new SQLiteConnection("Data Source=" + baseName + ";Version=3;");
-                    cnnect.Open();
-                    SQLiteCommand command = new SQLiteCommand(); ;
-                    command.Connection = cnnect;
-                    command.CommandText = @"SELECT * FROM";
-                    Console.WriteLine("Render request from {0}", mr.UserId);
-                    command.CommandType = CommandType.Text;
-                    command.ExecuteNonQuery();
+            cnnect.Open();
+            SQLiteCommand command = new SQLiteCommand(); ;
+            command.Connection = cnnect;
+            command.CommandText = @"SELECT * FROM [players]";
+            Console.WriteLine("Render request from {0}", rr.UserId);
+            command.CommandType = CommandType.Text;
+            command.ExecuteNonQuery();
             try
             {
                 SQLiteDataReader reader = command.ExecuteReader();
@@ -139,10 +137,11 @@ namespace RenderService
                 Console.WriteLine(ex.Message);
             }
             cnnect.Close();
-            return new RenderResponse { Players = players };
-                default:
-                    throw new ArgumentOutOfRangeException();
-            }
+            //TODO: Change to render response
+            return new BooleanResponse { Ok = true };//RenderResponse { Players = players };
+               /* default:
+                    throw new ArgumentOutOfRangeException();*/
+            //}
         }
     }
 }
