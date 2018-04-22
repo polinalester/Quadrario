@@ -38,7 +38,9 @@ namespace GameClient
         {
             ThreadPool.QueueUserWorkItem(state =>
             {
-                var req = new ServiceProvideRequest() { ServiceType = "move" };
+                var moveReq = new ServiceProvideRequest() { ServiceType = "move" };
+                var intersectReq = new ServiceProvideRequest() { ServiceType = "intersect" };
+                var renderReq = new ServiceProvideRequest() { ServiceType = "render" };
                 var dirServiceSocket = new RequestSocket();
                 dirServiceSocket.Connect("tcp://" + _dirSerIp + ":8910");
                 while (!_stopLoops)
@@ -47,7 +49,7 @@ namespace GameClient
                     {
                         using (var reqStream = new MemoryStream())
                         {
-                            Serializer.Serialize(reqStream, req);
+                            Serializer.Serialize(reqStream, moveReq);
                             dirServiceSocket.SendFrame(reqStream.ToArray());
                         }
                         var receiveFrame = dirServiceSocket.ReceiveFrameBytes();
@@ -57,10 +59,52 @@ namespace GameClient
                         {
                             MoveIP = request.Address;
                             PubSub_Move();
-                            //RequestReply_Render();
+                            //RequestReply_Move();
                             //RequestReply();
                         }
 
+                    }
+                    catch (Exception e)
+                    {
+                        Console.WriteLine(e);
+                    } 
+                    try
+                    {
+                        using (var reqStream = new MemoryStream())
+                        {
+                            Serializer.Serialize(reqStream, intersectReq);
+                            dirServiceSocket.SendFrame(reqStream.ToArray());
+                        }
+                        var receiveFrame = dirServiceSocket.ReceiveFrameBytes();
+                        var request = Serializer.Deserialize<Message>(new MemoryStream(receiveFrame)) as ServiceProviderResponse;
+                        if (!String.IsNullOrEmpty(request.Address))
+                        {
+                            IntersectIP = request.Address;
+                            PubSub_Intersect();
+                            //RequestReply_Move();
+                            //RequestReply();
+                        }
+                    }
+                    catch (Exception e)
+                    {
+                        Console.WriteLine(e);
+                    }
+                    try
+                    {
+                        using (var reqStream = new MemoryStream())
+                        {
+                            Serializer.Serialize(reqStream, renderReq);
+                            dirServiceSocket.SendFrame(reqStream.ToArray());
+                        }
+                        var receiveFrame = dirServiceSocket.ReceiveFrameBytes();
+                        var request = Serializer.Deserialize<Message>(new MemoryStream(receiveFrame)) as ServiceProviderResponse;
+                        if (!String.IsNullOrEmpty(request.Address))
+                        {
+                            RenderIP = request.Address;
+                            PubSub_Render();
+                            RequestReply_Render();
+                            //RequestReply();
+                        }
                     }
                     catch (Exception e)
                     {
@@ -87,7 +131,44 @@ namespace GameClient
                     {
                         var receiveFrame = client.ReceiveFrameBytes();
                         var @event = Serializer.Deserialize<Event>(new MemoryStream(receiveFrame));
-
+                    }
+                    catch (Exception e)
+                    {
+                        Console.WriteLine(e);
+                    }
+                }
+            });
+        }
+        public void PubSub_Intersect()
+        {
+            ThreadPool.QueueUserWorkItem(state => {
+                var client = new SubscriberSocket();
+                client.Connect("tcp://" + IntersectIP + ":5554");
+                while (!_stopLoops)
+                {
+                    try
+                    {
+                        var receiveFrame = client.ReceiveFrameBytes();
+                        var @event = Serializer.Deserialize<Event>(new MemoryStream(receiveFrame));
+                    }
+                    catch (Exception e)
+                    {
+                        Console.WriteLine(e);
+                    }
+                }
+            });
+        }
+        public void PubSub_Render()
+        {
+            ThreadPool.QueueUserWorkItem(state => {
+                var client = new SubscriberSocket();
+                client.Connect("tcp://" + RenderIP + ":5557");
+                while (!_stopLoops)
+                {
+                    try
+                    {
+                        var receiveFrame = client.ReceiveFrameBytes();
+                        var @event = Serializer.Deserialize<Event>(new MemoryStream(receiveFrame));
                     }
                     catch (Exception e)
                     {
@@ -142,9 +223,7 @@ namespace GameClient
                                     break;
                                 default:
                                     break;
-
                             }
-
                             using (var responseStream = new MemoryStream())
                             {
                                 Serializer.Serialize(responseStream, request);
@@ -154,7 +233,6 @@ namespace GameClient
                             var reply = Serializer.Deserialize<Response>(new MemoryStream(receiveFrame));
                             var mr = reply as BooleanResponse;
                         }
-
                         catch (Exception e)
                         {
                             Console.WriteLine(e);
@@ -170,7 +248,7 @@ namespace GameClient
                 client.Connect("tcp://" + IntersectIP + ":5553");
                 try
                 {
-                        var request = new IntersectRequest { UserId = Id };
+                        var request = new Request();
                         using (var responseStream = new MemoryStream())
                         {
                             Serializer.Serialize(responseStream, request);
@@ -194,7 +272,7 @@ namespace GameClient
                 client.Connect("tcp://" + RenderIP + ":5558");
                 try
                 {
-                    var request = new RenderRequest { UserId = Id };
+                    var request = new Request();
                     using (var responseStream = new MemoryStream())
                     {
                         Serializer.Serialize(responseStream, request);
@@ -202,7 +280,7 @@ namespace GameClient
                     }
                     var receiveFrame = client.ReceiveFrameBytes();
                     var reply = Serializer.Deserialize<Response>(new MemoryStream(receiveFrame));
-                    var mr = reply as BooleanResponse;
+                    var mr = reply as BooleanResponse; //TODO: Change to render response
                 }
                 catch (Exception e)
                 {

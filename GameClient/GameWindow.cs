@@ -71,7 +71,39 @@ namespace GameClient
                 DrawPlayers();
             }
 
+            if (e.KeyChar == (char)32)
+            {
+                gclient.RequestReply_Intersect();
+                players.Clear();
+                SQLiteConnection cnnect = new SQLiteConnection("Data Source=" + dbname + ";Version=3;");
+                cnnect.Open();
+                SQLiteCommand command = new SQLiteCommand();
+                command.Connection = cnnect;
+                command.CommandText = @"SELECT * FROM [players]";
 
+                try
+                {
+                    SQLiteDataReader r = command.ExecuteReader();
+                    string line = String.Empty;
+                    while (r.Read())
+                    {
+                        int[] playerInfo = new int[4];
+                        playerInfo[0] = Convert.ToInt32(r["id"]);
+                        playerInfo[1] = Convert.ToInt32(r["xcoordinate"]);
+                        playerInfo[2] = Convert.ToInt32(r["ycoordinate"]);
+                        playerInfo[3] = Convert.ToInt32(r["size"]);
+                        players.Add(playerInfo);
+                    }
+                    r.Close();
+                }
+                catch (SQLiteException ex)
+                {
+                    Console.WriteLine(ex.Message);
+                }
+                cnnect.Close();
+                RefreshGame();
+                DrawPlayers();
+            }
         }
         protected void RefreshGame()
         {
@@ -120,39 +152,6 @@ namespace GameClient
             }
             g.Dispose();
         }
-        /*protected override void OnPaint(PaintEventArgs e)
-        {
-            base.OnPaint(e);
-
-            /*using (Pen selPen = new Pen(Color.White))
-            {
-                g.DrawRectangle(selPen, 100, 200, 500, 500);
-            }*/
-
-            /*System.Drawing.SolidBrush myBrush = new System.Drawing.SolidBrush(System.Drawing.Color.White);
-            System.Drawing.Graphics formGraphics;
-            formGraphics = this.CreateGraphics();
-            formGraphics.FillRectangle(myBrush, new Rectangle(10, 100, 660, 450));
-            myBrush.Dispose();
-            formGraphics.Dispose();
-
-            Color randomColor = Color.FromArgb(rnd.Next(256), rnd.Next(256), rnd.Next(256));
-            int[] playerInfo = new int[4];
-            for (int i = 0; i < 4; i++) {
-                playerInfo[0] = rnd.Next(100);
-                playerInfo[1] = rnd.Next(10, 670);
-                playerInfo[2] = rnd.Next(100, 550);
-                playerInfo[3] = rnd.Next(50, 200);
-                players.Add(playerInfo);
-                using (Pen selPen = new Pen(randomColor))
-                {
-                    g.DrawRectangle(selPen, playerInfo[1], playerInfo[2], playerInfo[3], playerInfo[3]);
-                }
-            }
-
-        }*/
-       
-        
         private void button1_Click(object sender, EventArgs e)
         {
             var userId = 0;
