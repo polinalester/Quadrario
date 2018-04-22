@@ -82,6 +82,7 @@ namespace IntersectionService
                             Serializer.Serialize(responseStream, dataFacadeEvent);
                             server.SendFrame(responseStream.ToArray());
                         }
+                        Console.WriteLine("Sub from user " + dataFacadeEvent.UserId);
                         Thread.Sleep(5000);
                     }
                     catch (Exception e)
@@ -123,11 +124,11 @@ namespace IntersectionService
 
         public Response OnRequest(Request r)
         {
-            switch (r.Type)
+           /* switch (r.Type)
             {
-                case MessageTypes.IntersectRequest:
-                    var ir = (IntersectRequest)r;
-
+                case MessageTypes.Request:*/
+                    //var ir = (IntersectRequest)r;
+                    var ir = r;
                     string baseName = "C:/Users/polina/Downloads/Quadrario/Quadrario/playerdb.db3";
 
                     SQLiteConnection cnnect = new SQLiteConnection("Data Source=" + baseName + ";Version=3;");
@@ -193,9 +194,9 @@ namespace IntersectionService
                     }
                     cnnect.Close();
                     return new BooleanResponse { Ok = true };
-                default:
+                /*default:
                     throw new ArgumentOutOfRangeException();
-            }
+            }*/
         }
     }
 }
