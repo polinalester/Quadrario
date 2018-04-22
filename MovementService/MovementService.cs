@@ -14,12 +14,15 @@ using System.Data.SQLite;
 
 namespace MovementService
 {
-    public class MovementService : IDisposable {
+    public class MovementService : IDisposable
+    {
         private static volatile bool _stopLoops;
         private string _ip = "";
         private string _dirSerIp = "";
+        string dbName = "C:/Users/polina/Downloads/Quadrario/Quadrario/playerdb.db3";
 
-        public MovementService(string ip, string dirSerIp) {
+        public MovementService(string ip, string dirSerIp)
+        {
             _ip = ip;
             _dirSerIp = dirSerIp;
             RequestReply();
@@ -27,25 +30,33 @@ namespace MovementService
             CallDirectoryService();
         }
 
-        public void CallDirectoryService() {
-            ThreadPool.QueueUserWorkItem(state => {
+        public void CallDirectoryService()
+        {
+            ThreadPool.QueueUserWorkItem(state =>
+            {
                 var req = new ServiceHostRequest() { Address = _ip, ServiceType = "move" };
                 var dirServiceSocket = new RequestSocket();
                 dirServiceSocket.Connect("tcp://" + _dirSerIp + ":8910");
-                while(!_stopLoops) {
-                    try {
-                        using(var reqStream = new MemoryStream()) {
+                while (!_stopLoops)
+                {
+                    try
+                    {
+                        using (var reqStream = new MemoryStream())
+                        {
                             Serializer.Serialize(reqStream, req);
                             dirServiceSocket.SendFrame(reqStream.ToArray());
                         }
-                      var receiveFrame = dirServiceSocket.ReceiveFrameBytes();
-                            var request = Serializer.Deserialize<Message>(new MemoryStream( receiveFrame)) as BooleanResponse;
-                            Console.WriteLine(request.Ok);
-                            if(request.Ok) {
-                                return;
-                            }
-                        
-                    } catch(Exception e) {
+                        var receiveFrame = dirServiceSocket.ReceiveFrameBytes();
+                        var request = Serializer.Deserialize<Message>(new MemoryStream(receiveFrame)) as BooleanResponse;
+                        Console.WriteLine(request.Ok);
+                        if (request.Ok)
+                        {
+                            return;
+                        }
+
+                    }
+                    catch (Exception e)
+                    {
                         Console.WriteLine(e);
                     }
                     Thread.Sleep(1000);
@@ -53,61 +64,71 @@ namespace MovementService
             });
         }
 
-        public void Dispose() {
+        public void Dispose()
+        {
             _stopLoops = true;
         }
 
-        public void PubSub() {
-            ThreadPool.QueueUserWorkItem(state => {
+        public void PubSub()
+        {
+            ThreadPool.QueueUserWorkItem(state =>
+            {
                 var server = new PublisherSocket();
                 server.Bind("tcp://*:5556");
-                while(!_stopLoops) {
-                    try {
+                while (!_stopLoops)
+                {
+                    try
+                    {
                         var dataFacadeEvent = new DataFacadeEvent { State = new List<User> { new User { Id = 666 } } };
-                        using(var responseStream = new MemoryStream()) {
+                        using (var responseStream = new MemoryStream())
+                        {
                             Serializer.Serialize(responseStream, dataFacadeEvent);
                             server.SendFrame(responseStream.ToArray());
                         }
-                        Console.WriteLine("Sub from user " + dataFacadeEvent.UserId);
                         Thread.Sleep(5000);
-                    } catch(Exception e) {
+                    }
+                    catch (Exception e)
+                    {
                         Console.WriteLine(e);
                     }
                 }
             });
         }
 
-        public void RequestReply() {
-            //TODO: move into server app!
-            ThreadPool.QueueUserWorkItem(state => {
+        public void RequestReply()
+        {
+            ThreadPool.QueueUserWorkItem(state =>
+            {
                 var server = new ResponseSocket();
                 server.Bind("tcp://*:5555");
-                while(!_stopLoops) {
-                    try {
+                while (!_stopLoops)
+                {
+                    try
+                    {
                         var receiveFrame = server.ReceiveFrameBytes();
-                            var request = Serializer.Deserialize<Request>(new MemoryStream(receiveFrame));
-                            var response = OnRequest(request);
-
-                            using(var responseStream = new MemoryStream()) {
-                                Serializer.Serialize(responseStream, response);
-                                server.SendFrame(responseStream.ToArray());
-                            }
-                        
-                    } catch(Exception e) {
+                        var request = Serializer.Deserialize<Request>(new MemoryStream(receiveFrame));
+                        var response = OnRequest(request);
+                        using (var responseStream = new MemoryStream())
+                        {
+                            Serializer.Serialize(responseStream, response);
+                            server.SendFrame(responseStream.ToArray());
+                        }
+                    }
+                    catch (Exception e)
+                    {
                         Console.WriteLine(e);
                     }
                 }
             });
         }
 
-        public Response OnRequest(Request r) {
-            switch(r.Type) {
+        public Response OnRequest(Request r)
+        {
+            switch (r.Type)
+            {
                 case MessageTypes.MoveRequest:
                     var mr = (MoveRequest)r;
-
-                    string baseName = "C:/Users/polina/Downloads/Quadrario/Quadrario/playerdb.db3";
-              
-                    SQLiteConnection cnnect = new SQLiteConnection("Data Source=" + baseName + ";Version=3;");
+                    SQLiteConnection cnnect = new SQLiteConnection("Data Source=" + dbName + ";Version=3;");
                     cnnect.Open();
                     SQLiteCommand command = new SQLiteCommand(); ;
                     command.Connection = cnnect;
@@ -140,7 +161,6 @@ namespace MovementService
                     }
                     command.CommandType = CommandType.Text;
                     command.ExecuteNonQuery();
-
                     return new BooleanResponse { Ok = true };
                 default:
                     throw new ArgumentOutOfRangeException();

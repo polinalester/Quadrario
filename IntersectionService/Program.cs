@@ -36,7 +36,7 @@ namespace IntersectionService
             var s = new IntersectionService(ip, dirSerIp);
             while (Console.ReadLine() != "exit")
             {
-                Thread.Sleep(10);
+                //Thread.Sleep(10);
             }
             s.Dispose();
         }
