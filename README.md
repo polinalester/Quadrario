@@ -33,4 +33,4 @@ A project on grid&cloud computing
 
 # **GameWindow Example:**
 
-![](https://github.com/polinalester/Quadrario/blob/master/gameExample.png)
+![](https://github.com/polinalester/Quadrario/blob/master/gameplay_x1.5.gif)
