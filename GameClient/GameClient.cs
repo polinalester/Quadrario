@@ -179,8 +179,8 @@ namespace GameClient
         }
         public void RequestReply_Move(string keyPressed)
         {
-            ThreadPool.QueueUserWorkItem(state =>
-            {
+            //ThreadPool.QueueUserWorkItem(state =>
+            //{
                 var client = new RequestSocket();
                 client.Connect("tcp://" + MoveIP + ":5555");
                 if (keyPressed == "w" || keyPressed == "a" || keyPressed == "s" || keyPressed == "d")
@@ -239,12 +239,12 @@ namespace GameClient
                         Console.WriteLine(e);
                     }
                 }
-            });
+            //});
         }
         public void RequestReply_Intersect()
         {
-            ThreadPool.QueueUserWorkItem(state =>
-            {
+            //ThreadPool.QueueUserWorkItem(state =>
+            //{
                 var client = new RequestSocket();
                 client.Connect("tcp://" + IntersectIP + ":5553");
                 try
@@ -263,7 +263,7 @@ namespace GameClient
                 {
                     Console.WriteLine(e);
                 }
-            });
+            //});
         }
         public void RequestReply_Render()
         {
